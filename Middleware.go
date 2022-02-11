@@ -35,15 +35,17 @@ func VerifyJwtToken(c *gin.Context, jwtSecret string) (bool, jwt.MapClaims, int,
 	return true, claims, 0, nil
 }
 
-func SetCors(url string) {
+func SetCors(r *gin.Engine, url string) {
 	// set cors access
-	router := gin.Default()
-	router.Use(cors.New(cors.Config{
-		AllowOrigins: []string{url},
-		AllowMethods: []string{"PUT", "PATCH, GET, POST, DELETE, OPTIONS"},
-		AllowHeaders: []string{"*"},
-		// ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-	}))
-	router.Run()
+	corsConfig := cors.DefaultConfig()
+
+	corsConfig.AllowOrigins = []string{url}
+	// To be able to send tokens to the server.
+	corsConfig.AllowCredentials = true
+
+	// OPTIONS method for ReactJS
+	corsConfig.AddAllowMethods("OPTIONS")
+
+	// Register the middleware
+	r.Use(cors.New(corsConfig))
 }
