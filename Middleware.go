@@ -39,10 +39,10 @@ func SetCors(url string) {
 	// set cors access
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{url},
-		AllowMethods:     []string{"PUT", "PATCH, GET, POST, DELETE, OPTIONS"},
-		AllowHeaders:     []string{"Origin, X-Requested-With, Content-Type, Accept"},
-		ExposeHeaders:    []string{"Content-Length"},
+		AllowOrigins: []string{url},
+		AllowMethods: []string{"PUT", "PATCH, GET, POST, DELETE, OPTIONS"},
+		AllowHeaders: []string{"*"},
+		// ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
 	router.Run()
