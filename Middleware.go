@@ -35,11 +35,11 @@ func VerifyJwtToken(c *gin.Context, jwtSecret string) (bool, jwt.MapClaims, int,
 	return true, claims, 0, nil
 }
 
-func SetCors(r *gin.Engine, url string) {
+func SetCors(r *gin.Engine) {
 	// set cors access
 	corsConfig := cors.DefaultConfig()
 
-	corsConfig.AllowOrigins = []string{url}
+	corsConfig.AllowOrigins = []string{"*"}
 	// To be able to send tokens to the server.
 	corsConfig.AllowCredentials = true
 

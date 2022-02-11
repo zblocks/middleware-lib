@@ -22,7 +22,7 @@ func VerifyJwtToken(c *gin.Context, jwtSecret string) (bool, jwt.MapClaims, int,
 ```
 
 ```go
-func SetCors(r *gin.Engine, url string) 
+func SetCors(r *gin.Engine) 
 ```
 
 3. Variables defined in the library
