@@ -9,7 +9,18 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-func VerifyJwtToken(c *gin.Context, jwtSecret string) (bool, jwt.MapClaims, int, error) {
+var (
+	MiddlewareHandler middlewareInterface = &middlewareStruct{}
+)
+
+type middlewareStruct struct{}
+
+type middlewareInterface interface {
+	VerifyJwtToken(*gin.Context, string) (bool, jwt.MapClaims, int, error)
+	SetCors(r *gin.Engine)
+}
+
+func (m *middlewareStruct) VerifyJwtToken(c *gin.Context, jwtSecret string) (bool, jwt.MapClaims, int, error) {
 	auth_token := c.Request.Header["Authorization"]
 
 	// no auth token error
@@ -35,7 +46,7 @@ func VerifyJwtToken(c *gin.Context, jwtSecret string) (bool, jwt.MapClaims, int,
 	return true, claims, 0, nil
 }
 
-func SetCors(r *gin.Engine) {
+func (m *middlewareStruct) SetCors(r *gin.Engine) {
 	// set cors access
 	corsConfig := cors.DefaultConfig()
 
