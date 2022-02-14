@@ -9,15 +9,13 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-var (
-	MiddlewareHandler middlewareInterface = &middlewareStruct{}
-)
+var MiddlewareHandler middlewareInterface = &middlewareStruct{}
 
 type middlewareStruct struct{}
 
 type middlewareInterface interface {
 	VerifyJwtToken(*gin.Context, string) (bool, jwt.MapClaims, int, error)
-	SetCors(r *gin.Engine)
+	SetCors(*gin.Engine)
 }
 
 func (m *middlewareStruct) VerifyJwtToken(c *gin.Context, jwtSecret string) (bool, jwt.MapClaims, int, error) {
