@@ -1,4 +1,4 @@
-module github.com/sourabhmandal/testmiddleware
+module github.com/sourabhmandal/testzbytemiddleware
 
 go 1.18
 
