@@ -8,6 +8,6 @@ var JWTMiddlewares middlewareInterface = &middlewareStruct{}
 
 type middlewareStruct struct{}
 type middlewareInterface interface {
-	GetUserID(baseUrl string, userEmail string) UserData
+	GetUserID(userServiceBaseUrl string, userEmail string) UserData
 	VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool
 }
