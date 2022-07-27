@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (m *middlewareStruct) VerifyJwtToken(c *gin.Context, authServiceBaseUrl string) ValidJwt {
+func (m *middlewareStruct) VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) ValidJwt {
 	api := authServiceBaseUrl + "/auth/refreshToken"
 	r, err := http.NewRequest("GET", api, nil)
 	if err != nil {
