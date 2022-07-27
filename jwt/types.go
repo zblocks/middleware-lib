@@ -10,3 +10,12 @@ type GetUserIDResponse struct {
 	Status bool     `json:"status"`
 	Data   UserData `json:"data"`
 }
+
+type VerifyJwtTokenResponse struct {
+	Status bool     `json:"status"`
+	Data   ValidJwt `json:"data"`
+}
+
+type ValidJwt struct {
+	IsValid bool `json:"isValid"`
+}
