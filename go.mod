@@ -1,4 +1,4 @@
-module github.com/Zbyteio/middleware-lib
+module github.com/sourabhmandal/testzbytemiddleware
 
 go 1.18
 
