@@ -1,4 +1,4 @@
-package jwt
+package middleware
 
 type UserData struct {
 	UserIdPk    int    `json:"userId"`

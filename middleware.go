@@ -1,7 +1,11 @@
 package middleware
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
+	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/gin-contrib/cors"
@@ -16,6 +20,8 @@ type middlewareStruct struct{}
 type middlewareInterface interface {
 	VerifyJwtToken(*gin.Context, string) (bool, jwt.MapClaims, int, error)
 	SetCors(*gin.Engine)
+	GetUserID(baseUrl string, userEmail string) UserData
+	VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool
 }
 
 func (m *middlewareStruct) VerifyJwtToken(c *gin.Context, jwtSecret string) (bool, jwt.MapClaims, int, error) {
@@ -57,4 +63,64 @@ func (m *middlewareStruct) SetCors(r *gin.Engine) {
 
 	// Register the middleware
 	r.Use(cors.New(corsConfig))
+}
+
+
+
+func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) UserData {
+	api := baseUrl + "/getUserProfileByEmail"
+	body := []byte(fmt.Sprintf(`{"userEmail": "%s"}`, userEmail))
+
+	r, err := http.NewRequest("POST", api, bytes.NewBuffer(body))
+	if err != nil {
+		panic(err)
+	}
+	r.Header.Add("Content-Type", "application/json")
+
+	client := &http.Client{}
+	res, err := client.Do(r)
+	if err != nil {
+		panic(err)
+	}
+
+	defer res.Body.Close()
+
+	var data GetUserIDResponse
+	derr := json.NewDecoder(res.Body).Decode(&data)
+	if derr != nil {
+		panic(derr.Error())
+	}
+	if data.Status {
+		return data.Data
+	}
+	return UserData{}
+}
+
+
+func (m *middlewareStruct) VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool {
+	api := authServiceBaseUrl + "/auth/verifyToken"
+	r, err := http.NewRequest("GET", api, nil)
+	if err != nil {
+		panic(err)
+	}
+	r.Header.Add("Content-Type", "application/json")
+	r.Header.Add("Authorization", c.Request.Header["Authorization"][0])
+
+	client := &http.Client{}
+	res, err := client.Do(r)
+	if err != nil {
+		panic(err)
+	}
+
+	defer res.Body.Close()
+
+	var data VerifyJwtTokenResponse
+	derr := json.NewDecoder(res.Body).Decode(&data)
+	if derr != nil {
+		panic(derr.Error())
+	}
+	if data.Status {
+		return data.Data.IsValid
+	}
+	return false
 }
