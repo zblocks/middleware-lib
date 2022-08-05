@@ -1,8 +1,8 @@
 package middleware
 
 type GetUserIDResponse struct {
-	Status bool     `json:"status"`
-	UserId   int `json:"userId"`
+	Status bool `json:"status"`
+	UserId int  `json:"userId"`
 }
 
 type VerifyJwtTokenResponse struct {

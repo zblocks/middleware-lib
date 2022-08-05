@@ -65,8 +65,6 @@ func (m *middlewareStruct) SetCors(r *gin.Engine) {
 	r.Use(cors.New(corsConfig))
 }
 
-
-
 func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) GetUserIDResponse {
 	api := baseUrl + "/getUserProfileByEmail"
 	body := []byte(fmt.Sprintf(`{"userEmail": "%s"}`, userEmail))
@@ -95,7 +93,6 @@ func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) GetUserID
 	}
 	return GetUserIDResponse{}
 }
-
 
 func (m *middlewareStruct) VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool {
 	api := authServiceBaseUrl + "/auth/verifyToken"
