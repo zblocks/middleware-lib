@@ -20,7 +20,7 @@ type middlewareStruct struct{}
 type middlewareInterface interface {
 	VerifyJwtToken(*gin.Context, string) (bool, jwt.MapClaims, int, error)
 	SetCors(*gin.Engine)
-	GetUserID(baseUrl string, userEmail string) UserData
+	GetUserID(baseUrl string, userEmail string) GetUserIDResponse
 	VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool
 }
 
@@ -67,7 +67,7 @@ func (m *middlewareStruct) SetCors(r *gin.Engine) {
 
 
 
-func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) UserData {
+func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) GetUserIDResponse {
 	api := baseUrl + "/getUserProfileByEmail"
 	body := []byte(fmt.Sprintf(`{"userEmail": "%s"}`, userEmail))
 
@@ -91,9 +91,9 @@ func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) UserData 
 		panic(derr.Error())
 	}
 	if data.Status {
-		return data.Data
+		return data
 	}
-	return UserData{}
+	return GetUserIDResponse{}
 }
 
 
