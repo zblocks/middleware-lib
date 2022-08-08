@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/gin-contrib/cors"
@@ -66,7 +67,7 @@ func (m *middlewareStruct) SetCors(r *gin.Engine) {
 }
 
 func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) GetUserIDResponse {
-	api := baseUrl + "/getUserProfileByEmail"
+	api, _ := url.JoinPath(baseUrl ,"/getUserProfileByEmail")
 	body := []byte(fmt.Sprintf(`{"userEmail": "%s"}`, userEmail))
 
 	r, err := http.NewRequest("POST", api, bytes.NewBuffer(body))
@@ -99,7 +100,7 @@ func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) GetUserID
 }
 
 func (m *middlewareStruct) VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool {
-	api := authServiceBaseUrl + "/auth/verifyToken"
+	api, _ := url.JoinPath(authServiceBaseUrl, "/auth/verifyToken")
 	r, err := http.NewRequest("GET", api, nil)
 	if err != nil {
 		panic(err)
