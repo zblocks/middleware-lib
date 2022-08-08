@@ -83,13 +83,17 @@ func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) GetUserID
 
 	defer res.Body.Close()
 
-	var data GetUserIDResponse
+	var data GetUserDataResponse
 	derr := json.NewDecoder(res.Body).Decode(&data)
 	if derr != nil {
 		panic(derr.Error())
 	}
+	resp := GetUserIDResponse{
+		Status: data.Status,
+		UserId: data.Data.UserIdPk,
+	}
 	if data.Status {
-		return data
+		return resp
 	}
 	return GetUserIDResponse{}
 }
