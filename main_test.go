@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	middleware "github.com/sourabhmandal/test-zbyte-middleware"
-	middlewareMock "github.com/sourabhmandal/test-zbyte-middleware/mocks"
+	middleware "github.com/sourabhmandal/middleware-lib"
+	middlewareMock "github.com/sourabhmandal/middleware-lib/mocks"
 	"github.com/stretchr/testify/assert"
 )
 
