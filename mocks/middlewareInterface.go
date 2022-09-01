@@ -3,6 +3,8 @@
 package mocks
 
 import (
+	"fmt"
+
 	gin "github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt"
 
@@ -76,6 +78,8 @@ func (_m *middlewareInterface) VerifyJwtToken(_a0 *gin.Context, _a1 string) (boo
 
 // VerifyJwtTokenV2 provides a mock function with given fields: c, authServiceBaseUrl
 func (_m *middlewareInterface) VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool {
+	fmt.Println("VERIFY MOCK")
+	
 	ret := _m.Called(c, authServiceBaseUrl)
 
 	var r0 bool
