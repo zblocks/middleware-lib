@@ -3,9 +3,9 @@ package middleware_test
 import (
 	"testing"
 
-	"github.com/Zbyteio/middleware-lib"
-	middlewareMock "github.com/Zbyteio/middleware-lib/mocks"
 	"github.com/gin-gonic/gin"
+	middleware "github.com/sourabhmandal/test-zbyte-middleware"
+	middlewareMock "github.com/sourabhmandal/test-zbyte-middleware/mocks"
 	"github.com/stretchr/testify/assert"
 )
 

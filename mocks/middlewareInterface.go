@@ -6,7 +6,7 @@ import (
 	gin "github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt"
 
-	middleware "github.com/Zbyteio/middleware-lib"
+	middleware "github.com/sourabhmandal/test-zbyte-middleware"
 
 	mock "github.com/stretchr/testify/mock"
 )
