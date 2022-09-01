@@ -21,7 +21,6 @@ type middlewareInterface interface {
 	VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool
 }
 
-
 func (m *middlewareStruct) SetCors(r *gin.Engine) {
 	// set cors access
 	corsConfig := cors.DefaultConfig()
@@ -38,7 +37,7 @@ func (m *middlewareStruct) SetCors(r *gin.Engine) {
 }
 
 func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) GetUserIDResponse {
-	api, _ := url.JoinPath(baseUrl ,"/getUserProfileByEmail")
+	api, _ := url.JoinPath(baseUrl, "/getUserProfileByEmail")
 	body := []byte(fmt.Sprintf(`{"userEmail": "%s"}`, userEmail))
 
 	r, err := http.NewRequest("POST", api, bytes.NewBuffer(body))

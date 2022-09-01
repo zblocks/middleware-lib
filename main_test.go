@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestMockFunctions(t *testing.T)()  {
-  middleware.MiddlewareHandler = middlewareMock.MiddlewareMock
+func TestMockFunctions(t *testing.T) {
+	middleware.MiddlewareHandler = middlewareMock.MiddlewareMock
 	jwtToken := "test_jwt_string"
 	ctx := &gin.Context{}
 	eng := &gin.Engine{}
@@ -23,18 +23,16 @@ func TestMockFunctions(t *testing.T)()  {
 		UserId: 80,
 	})
 
-
-
-	t.Run("When verify token mock function given correct data", func (t *testing.T)  {
+	t.Run("When verify token mock function given correct data", func(t *testing.T) {
 		resp := middlewareMock.MiddlewareMock.VerifyJwtTokenV2(ctx, jwtToken)
 		assert.Equal(t, true, resp)
 	})
 
-	t.Run("When SetCors() function given correct data", func (t *testing.T)  {
+	t.Run("When SetCors() function given correct data", func(t *testing.T) {
 		middlewareMock.MiddlewareMock.SetCors(eng)
 	})
 
-	t.Run("When GetUserID() function given correct data", func (t *testing.T)  {
+	t.Run("When GetUserID() function given correct data", func(t *testing.T) {
 		resp := middlewareMock.MiddlewareMock.GetUserID(auth_base_url, test_email)
 		assert.Equal(t, true, resp.Status)
 		assert.Equal(t, 80, resp.UserId)
