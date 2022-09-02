@@ -1,0 +1,67 @@
+# This workflow is to status checks for all PRs for a given repo
+name: pr-status-check
+
+# Triggered when push or pull request on selected branches
+on:
+  push:
+    branches:
+    - 'master'
+    - 'CI'
+  pull_request:
+    branches:
+    - 'master'
+    - 'CI'
+
+# This job shall build the code, run unit tests, lint, and security check on the PR
+jobs:
+  pr-status-check:
+    name: Build, test and run checks on PR
+    runs-on: ubuntu-latest
+
+    steps:
+      #Install Go on the runner machine
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+            go-version: '1.19.0'
+
+      # Checkout code from PR
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Build the code
+      - name: Build
+        env:
+            GOPROXY: "https://proxy.golang.org"
+        run: go build -v ./...
+
+      # Run gofmt on the code, TODO: Currently it does not fail the check
+      - name: Check Formatting using go fmt
+        continue-on-error: true
+        run: |
+              gofmt -s -l .
+
+              if [ "$(gofmt -s -w . | wc -l)" -gt 0 ]; then echo "Files have been formatted\n" ; fi
+
+      # Run unit tests
+      - name: Run Unit Tests
+        run: go test -v ./...
+
+      # Run go vet on the code, TODO: Currently it does not fail the check
+      - name: Check go vet
+        continue-on-error: true
+        run: go vet ./...
+
+
+      # Run go lint on the code, TODO: Currently it does not fail the check
+      # https://github.com/golangci/golangci-lint-action
+      - name: golangci-lint
+        continue-on-error: true
+        uses: golangci/golangci-lint-action@v3
+        with:
+          # version of golangci-lint
+          version: latest
+          working-directory: .
+
+
+# done
