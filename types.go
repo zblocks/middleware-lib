@@ -7,10 +7,10 @@ type GetUserIDResponse struct {
 
 type GetUserDataResponse struct {
 	Status bool `json:"status"`
-	Data struct{
+	Data   struct {
 		UserIdPk    int    `json:"userId"`
-    Email       string `json:"email"`
-    Designation string `json:"designation"`
+		Email       string `json:"email"`
+		Designation string `json:"designation"`
 	} `json:"data"`
 }
 

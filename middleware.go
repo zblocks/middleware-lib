@@ -25,9 +25,23 @@ type middlewareInterface interface {
 	VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool
 }
 
+func (m *middlewareStruct) SetCors(r *gin.Engine) {
+	// set cors access
+	corsConfig := cors.DefaultConfig()
+
+	corsConfig.AllowOrigins = []string{"*"}
+	// To be able to send tokens to the server.
+	corsConfig.AllowCredentials = true
+
+	// OPTIONS method for ReactJS
+	corsConfig.AddAllowMethods("OPTIONS")
+
+	// Register the middleware
+	r.Use(cors.New(corsConfig))
+}
+
 func (m *middlewareStruct) VerifyJwtToken(c *gin.Context, jwtSecret string) (bool, jwt.MapClaims, int, error) {
 	auth_token := c.Request.Header["Authorization"]
-
 	// no auth token error
 	if len(auth_token) == 0 {
 		return false, nil, ErrAuthorizationTokenEmpty, errors.New(AuthorizationTokenEmpty)
@@ -51,23 +65,8 @@ func (m *middlewareStruct) VerifyJwtToken(c *gin.Context, jwtSecret string) (boo
 	return true, claims, 0, nil
 }
 
-func (m *middlewareStruct) SetCors(r *gin.Engine) {
-	// set cors access
-	corsConfig := cors.DefaultConfig()
-
-	corsConfig.AllowOrigins = []string{"*"}
-	// To be able to send tokens to the server.
-	corsConfig.AllowCredentials = true
-
-	// OPTIONS method for ReactJS
-	corsConfig.AddAllowMethods("OPTIONS")
-
-	// Register the middleware
-	r.Use(cors.New(corsConfig))
-}
-
 func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) GetUserIDResponse {
-	api, _ := url.JoinPath(baseUrl ,"/getUserProfileByEmail")
+	api, _ := url.JoinPath(baseUrl, "/getUserProfileByEmail")
 	body := []byte(fmt.Sprintf(`{"userEmail": "%s"}`, userEmail))
 
 	r, err := http.NewRequest("POST", api, bytes.NewBuffer(body))
