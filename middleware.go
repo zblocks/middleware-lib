@@ -93,7 +93,6 @@ func (m *middlewareStruct) GetUserJwtData(userServiceBaseUrl string, userEmail s
 		UserId: data.Data.UserIdPk,
 		Email: data.Data.Email,
 		Designation: data.Data.Designation,
-		UserRole: data.Data.UserRole,
 		OrgDomainName: data.Data.OrgDomainName,
 		OrgType: data.Data.OrgType,
 	}
