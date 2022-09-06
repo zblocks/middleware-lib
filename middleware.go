@@ -89,12 +89,12 @@ func (m *middlewareStruct) GetUserJwtData(userServiceBaseUrl string, userEmail s
 		panic(derr.Error())
 	}
 	resp := GetUserIDResponse{
-		Status: data.Status,
-		UserId: data.Data.UserIdPk,
-		Email: data.Data.Email,
-		Designation: data.Data.Designation,
+		Status:        data.Status,
+		UserId:        data.Data.UserIdPk,
+		Email:         data.Data.Email,
+		Designation:   data.Data.Designation,
 		OrgDomainName: data.Data.OrgDomainName,
-		OrgType: data.Data.OrgType,
+		OrgType:       data.Data.OrgType,
 	}
 	if data.Status {
 		return resp
