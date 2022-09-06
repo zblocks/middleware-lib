@@ -21,7 +21,7 @@ type middlewareStruct struct{}
 type middlewareInterface interface {
 	VerifyJwtToken(*gin.Context, string) (bool, jwt.MapClaims, int, error)
 	SetCors(*gin.Engine)
-	GetUserID(baseUrl string, userEmail string) GetUserIDResponse
+	GetUserJwtData(baseUrl string, userEmail string) GetUserIDResponse
 	VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool
 }
 
@@ -65,8 +65,8 @@ func (m *middlewareStruct) VerifyJwtToken(c *gin.Context, jwtSecret string) (boo
 	return true, claims, 0, nil
 }
 
-func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) GetUserIDResponse {
-	api, _ := url.JoinPath(baseUrl, "/getUserProfileByEmail")
+func (m *middlewareStruct) GetUserJwtData(userServiceBaseUrl string, userEmail string) GetUserIDResponse {
+	api, _ := url.JoinPath(userServiceBaseUrl, "/getUserProfileByEmail")
 	body := []byte(fmt.Sprintf(`{"userEmail": "%s"}`, userEmail))
 
 	r, err := http.NewRequest("POST", api, bytes.NewBuffer(body))
@@ -89,8 +89,12 @@ func (m *middlewareStruct) GetUserID(baseUrl string, userEmail string) GetUserID
 		panic(derr.Error())
 	}
 	resp := GetUserIDResponse{
-		Status: data.Status,
-		UserId: data.Data.UserIdPk,
+		Status:        data.Status,
+		UserId:        data.Data.UserIdPk,
+		Email:         data.Data.Email,
+		Designation:   data.Data.Designation,
+		OrgDomainName: data.Data.OrgDomainName,
+		OrgType:       data.Data.OrgType,
 	}
 	if data.Status {
 		return resp
