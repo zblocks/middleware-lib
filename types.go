@@ -15,7 +15,6 @@ type GetUserDataResponse struct {
 		UserIdPk      int64  `json:"userId"`
 		Email         string `json:"email"`
 		Designation   string `json:"designation"`
-		UserRole      string `json:"userRole"`
 		OrgDomainName string `json:"orgDomainName"`
 		OrgType       string `json:"orgType"`
 	} `json:"data"`
