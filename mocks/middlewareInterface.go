@@ -18,8 +18,8 @@ type middlewareInterface struct {
 
 var MiddlewareMock = &middlewareInterface{}
 
-// GetUserID provides a mock function with given fields: baseUrl, userEmail
-func (_m *middlewareInterface) GetUserID(baseUrl string, userEmail string) middleware.GetUserIDResponse {
+// GetUserJwtData provides a mock function with given fields: baseUrl, userEmail
+func (_m *middlewareInterface) GetUserJwtData(baseUrl string, userEmail string) middleware.GetUserIDResponse {
 	ret := _m.Called(baseUrl, userEmail)
 
 	var r0 middleware.GetUserIDResponse
