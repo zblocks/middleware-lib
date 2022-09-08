@@ -1,21 +1,13 @@
 package middleware
 
-type GetUserIDResponse struct {
-	Status        bool   `json:"status"`
-	UserId        int64  `json:"userId"`
-	Email         string `json:"email"`
-	Designation   string `json:"designation"`
-	OrgDomainName string `json:"orgDomainName"`
-	OrgType       string `json:"orgType"`
-}
-
-type GetUserDataResponse struct {
+type GetUserDataByEmailResponse struct {
 	Status bool `json:"status"`
 	Data   struct {
-		UserIdPk      int64  `json:"userId"`
+		UserId        int64  `json:"userId"`
 		Email         string `json:"email"`
 		Designation   string `json:"designation"`
 		OrgDomainName string `json:"orgDomainName"`
+		UserRole      string `json:"userRole"`
 		OrgType       string `json:"orgType"`
 	} `json:"data"`
 }
