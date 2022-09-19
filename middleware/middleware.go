@@ -67,7 +67,7 @@ func (m *middlewareStruct) GetUserJwtData(userServiceBaseUrl string, userEmail s
 }
 
 func (m *middlewareStruct) VerifyJwtToken(c *gin.Context, authServiceBaseUrl string) *ValidJwt {
-	api, _ := url.JoinPath(authServiceBaseUrl, "/auth/verifyToken")
+	api, _ := url.JoinPath(authServiceBaseUrl, "/v1/auth/verifyToken")
 	r, err := http.NewRequest("GET", api, nil)
 	if err != nil {
 		panic(err)

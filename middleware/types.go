@@ -1,8 +1,6 @@
 package middleware
 
-import (
-	"time"
-)
+import "github.com/golang-jwt/jwt/v4"
 
 type GetUserDataByEmailResponse struct {
 	Status bool `json:"status"`
@@ -28,6 +26,5 @@ type ValidJwt struct {
 
 type Claims struct {
 	UserId    int64     `json:"user_id"`
-	IssuedAt  time.Time `json:"issued_at"`
-	ExpiresAt time.Time `json:"expires_at"`
+	jwt.StandardClaims
 }

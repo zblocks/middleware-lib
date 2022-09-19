@@ -3,9 +3,8 @@
 package mocks
 
 import (
-	middleware "github.com/sourabhmandal/middleware-lib"
 	gin "github.com/gin-gonic/gin"
-
+	middleware "github.com/sourabhmandal/middleware-lib/middleware"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -15,7 +14,6 @@ type middlewareInterface struct {
 }
 
 var MiddlewareMock = &middlewareInterface{}
-
 
 // GetUserJwtData provides a mock function with given fields: baseUrl, userEmail
 func (_m *middlewareInterface) GetUserJwtData(baseUrl string, userEmail string) middleware.GetUserDataByEmailResponse {
@@ -36,8 +34,8 @@ func (_m *middlewareInterface) SetCors(_a0 *gin.Engine) {
 	_m.Called(_a0)
 }
 
-// VerifyJwtTokenV2 provides a mock function with given fields: c, authServiceBaseUrl
-func (_m *middlewareInterface) VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) *middleware.ValidJwt {
+// VerifyJwtToken provides a mock function with given fields: c, authServiceBaseUrl
+func (_m *middlewareInterface) VerifyJwtToken(c *gin.Context, authServiceBaseUrl string) *middleware.ValidJwt {
 	ret := _m.Called(c, authServiceBaseUrl)
 
 	var r0 *middleware.ValidJwt
