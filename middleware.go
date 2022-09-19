@@ -18,7 +18,7 @@ type middlewareStruct struct{}
 type middlewareInterface interface {
 	SetCors(*gin.Engine)
 	GetUserJwtData(baseUrl string, userEmail string) GetUserDataByEmailResponse
-	VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) *ValidJwt
+	VerifyJwtToken(c *gin.Context, authServiceBaseUrl string) *ValidJwt
 }
 
 func (m *middlewareStruct) SetCors(r *gin.Engine) {
@@ -66,7 +66,7 @@ func (m *middlewareStruct) GetUserJwtData(userServiceBaseUrl string, userEmail s
 	return GetUserDataByEmailResponse{}
 }
 
-func (m *middlewareStruct) VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) *ValidJwt {
+func (m *middlewareStruct) VerifyJwtToken(c *gin.Context, authServiceBaseUrl string) *ValidJwt {
 	api, _ := url.JoinPath(authServiceBaseUrl, "/auth/verifyToken")
 	r, err := http.NewRequest("GET", api, nil)
 	if err != nil {
