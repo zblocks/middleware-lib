@@ -4,7 +4,7 @@ package mocks
 
 import (
 	gin "github.com/gin-gonic/gin"
-	middleware "github.com/sourabhmandal/middleware-lib/middleware"
+	middleware "github.com/Zbyteio/middleware-lib/middleware"
 	mock "github.com/stretchr/testify/mock"
 )
 

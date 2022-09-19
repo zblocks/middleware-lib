@@ -1,4 +1,4 @@
-module github.com/sourabhmandal/middleware-lib
+module github.com/Zbyteio/middleware-lib
 
 go 1.19
 
