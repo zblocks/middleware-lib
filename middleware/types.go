@@ -1,5 +1,7 @@
 package middleware
 
+import "github.com/golang-jwt/jwt/v4"
+
 type GetUserDataByEmailResponse struct {
 	Status bool `json:"status"`
 	Data   struct {
@@ -14,9 +16,15 @@ type GetUserDataByEmailResponse struct {
 
 type VerifyJwtTokenResponse struct {
 	Status bool     `json:"status"`
-	Data   ValidJwt `json:"data"`
+	Data   *ValidJwt `json:"data"`
 }
 
 type ValidJwt struct {
-	IsValid bool `json:"isValid"`
+	IsValid bool    `json:"isValid"`
+	Claims  *Claims `json:"claims"`
+}
+
+type Claims struct {
+	UserId    int64     `json:"user_id"`
+	jwt.StandardClaims
 }

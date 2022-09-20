@@ -4,10 +4,7 @@ package mocks
 
 import (
 	gin "github.com/gin-gonic/gin"
-	jwt "github.com/golang-jwt/jwt"
-
-	middleware "github.com/Zbyteio/middleware-lib"
-
+	middleware "github.com/Zbyteio/middleware-lib/middleware"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -37,52 +34,17 @@ func (_m *middlewareInterface) SetCors(_a0 *gin.Engine) {
 	_m.Called(_a0)
 }
 
-// VerifyJwtToken provides a mock function with given fields: _a0, _a1
-func (_m *middlewareInterface) VerifyJwtToken(_a0 *gin.Context, _a1 string) (bool, jwt.MapClaims, int, error) {
-	ret := _m.Called(_a0, _a1)
-
-	var r0 bool
-	if rf, ok := ret.Get(0).(func(*gin.Context, string) bool); ok {
-		r0 = rf(_a0, _a1)
-	} else {
-		r0 = ret.Get(0).(bool)
-	}
-
-	var r1 jwt.MapClaims
-	if rf, ok := ret.Get(1).(func(*gin.Context, string) jwt.MapClaims); ok {
-		r1 = rf(_a0, _a1)
-	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(jwt.MapClaims)
-		}
-	}
-
-	var r2 int
-	if rf, ok := ret.Get(2).(func(*gin.Context, string) int); ok {
-		r2 = rf(_a0, _a1)
-	} else {
-		r2 = ret.Get(2).(int)
-	}
-
-	var r3 error
-	if rf, ok := ret.Get(3).(func(*gin.Context, string) error); ok {
-		r3 = rf(_a0, _a1)
-	} else {
-		r3 = ret.Error(3)
-	}
-
-	return r0, r1, r2, r3
-}
-
-// VerifyJwtTokenV2 provides a mock function with given fields: c, authServiceBaseUrl
-func (_m *middlewareInterface) VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool {
+// VerifyJwtToken provides a mock function with given fields: c, authServiceBaseUrl
+func (_m *middlewareInterface) VerifyJwtToken(c *gin.Context, authServiceBaseUrl string) *middleware.ValidJwt {
 	ret := _m.Called(c, authServiceBaseUrl)
 
-	var r0 bool
-	if rf, ok := ret.Get(0).(func(*gin.Context, string) bool); ok {
+	var r0 *middleware.ValidJwt
+	if rf, ok := ret.Get(0).(func(*gin.Context, string) *middleware.ValidJwt); ok {
 		r0 = rf(c, authServiceBaseUrl)
 	} else {
-		r0 = ret.Get(0).(bool)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*middleware.ValidJwt)
+		}
 	}
 
 	return r0

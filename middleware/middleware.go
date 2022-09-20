@@ -3,15 +3,12 @@ package middleware
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
-	"strings"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt"
 )
 
 var MiddlewareHandler middlewareInterface = &middlewareStruct{}
@@ -19,10 +16,9 @@ var MiddlewareHandler middlewareInterface = &middlewareStruct{}
 type middlewareStruct struct{}
 
 type middlewareInterface interface {
-	VerifyJwtToken(*gin.Context, string) (bool, jwt.MapClaims, int, error)
 	SetCors(*gin.Engine)
 	GetUserJwtData(baseUrl string, userEmail string) GetUserDataByEmailResponse
-	VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool
+	VerifyJwtToken(c *gin.Context, authServiceBaseUrl string) *ValidJwt
 }
 
 func (m *middlewareStruct) SetCors(r *gin.Engine) {
@@ -38,31 +34,6 @@ func (m *middlewareStruct) SetCors(r *gin.Engine) {
 
 	// Register the middleware
 	r.Use(cors.New(corsConfig))
-}
-
-func (m *middlewareStruct) VerifyJwtToken(c *gin.Context, jwtSecret string) (bool, jwt.MapClaims, int, error) {
-	auth_token := c.Request.Header["Authorization"]
-	// no auth token error
-	if len(auth_token) == 0 {
-		return false, nil, ErrAuthorizationTokenEmpty, errors.New(AuthorizationTokenEmpty)
-	}
-
-	jwttoken := strings.Split(auth_token[0], " ")[1]
-
-	claims := jwt.MapClaims{}
-	tkn, err := jwt.ParseWithClaims(jwttoken, claims, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, errors.New(AuthorizationTokenInvalid)
-		}
-		return []byte(jwtSecret), nil
-	})
-	if err != nil {
-		return false, nil, ErrAuthorizationTokenInvalid, errors.New(AuthorizationTokenInvalid)
-	}
-	if !tkn.Valid {
-		return false, nil, ErrAuthorizationTokenInvalid, errors.New(AuthorizationTokenInvalid)
-	}
-	return true, claims, 0, nil
 }
 
 func (m *middlewareStruct) GetUserJwtData(userServiceBaseUrl string, userEmail string) GetUserDataByEmailResponse {
@@ -95,8 +66,8 @@ func (m *middlewareStruct) GetUserJwtData(userServiceBaseUrl string, userEmail s
 	return GetUserDataByEmailResponse{}
 }
 
-func (m *middlewareStruct) VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl string) bool {
-	api, _ := url.JoinPath(authServiceBaseUrl, "/auth/verifyToken")
+func (m *middlewareStruct) VerifyJwtToken(c *gin.Context, authServiceBaseUrl string) *ValidJwt {
+	api, _ := url.JoinPath(authServiceBaseUrl, "/v1/auth/verifyToken")
 	r, err := http.NewRequest("GET", api, nil)
 	if err != nil {
 		panic(err)
@@ -118,7 +89,7 @@ func (m *middlewareStruct) VerifyJwtTokenV2(c *gin.Context, authServiceBaseUrl s
 		panic(derr.Error())
 	}
 	if data.Status {
-		return data.Data.IsValid
+		return data.Data
 	}
-	return false
+	return nil
 }
