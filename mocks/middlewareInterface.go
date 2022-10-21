@@ -3,8 +3,8 @@
 package mocks
 
 import (
-	gin "github.com/gin-gonic/gin"
 	middleware "github.com/Zbyteio/middleware-lib/middleware"
+	gin "github.com/gin-gonic/gin"
 	mock "github.com/stretchr/testify/mock"
 )
 
