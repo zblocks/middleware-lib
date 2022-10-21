@@ -26,5 +26,5 @@ type ValidJwt struct {
 
 type Claims struct {
 	UserId    int64     `json:"user_id"`
-	jwt.StandardClaims
+	jwt.RegisteredClaims
 }
