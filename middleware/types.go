@@ -15,8 +15,14 @@ type GetUserDataByEmailResponse struct {
 }
 
 type VerifyJwtTokenResponse struct {
-	Status bool     `json:"status"`
+	Status bool      `json:"status"`
 	Data   *ValidJwt `json:"data"`
+}
+
+type VerifyJwtTokenResponseKeycloak struct {
+	Status bool        `json:"status"`
+	Header map[string]interface{} `json:"tokenHeader"`
+	Data   jwt.Claims `json:"data"`
 }
 
 type ValidJwt struct {
@@ -25,6 +31,6 @@ type ValidJwt struct {
 }
 
 type Claims struct {
-	UserId    int64     `json:"user_id"`
+	UserId int64 `json:"user_id"`
 	jwt.RegisteredClaims
 }
