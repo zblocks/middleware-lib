@@ -51,3 +51,20 @@ middleware.MiddlewareHandler = middlewareMock.MiddlewareMock
 	middlewareMock.MiddlewareMock.On("VerifyJwtTokenV2", mock.AnythingOfType("*gin.Context"), "<auth_service_base_url>").Return(true)
 
 ```
+
+3. Use the new keycloak access token verification as follows
+
+```go
+
+srv.GET("/a", func(ctx *gin.Context) {
+  access_token := ctx.GetHeader("Authorization")
+	isValid, err := middleware.MiddlewareHandler.KeycloakTokenVerify(access_token, "https://appdev.zbyte.io/keycloak-poc/")
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error" : err.Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusAccepted, isValid)
+})
+```
