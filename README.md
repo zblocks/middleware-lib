@@ -6,13 +6,13 @@
 
 ```go
 import (
-	"github.com/Zbyteio/middleware-lib"
+	"github.com/zblocks/middleware-lib"
 )
 
 ```
 Inside terminal run 
 ```go
-go get github.com/Zbyteio/middleware-lib
+go get github.com/zblocks/middleware-lib
 
 ```
 2. Functions included in the library

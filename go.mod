@@ -1,4 +1,4 @@
-module github.com/Zbyteio/middleware-lib
+module github.com/zblocks/middleware-lib
 
 go 1.19
 
