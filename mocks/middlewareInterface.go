@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	middleware "github.com/Zbyteio/middleware-lib/middleware"
+	middleware "github.com/zblocks/middleware-lib/middleware"
 	gin "github.com/gin-gonic/gin"
 	mock "github.com/stretchr/testify/mock"
 )
